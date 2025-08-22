@@ -1,0 +1,6 @@
+django
+newsapi-python
+requests
+pandas
+numpy
+vaderSentiment
