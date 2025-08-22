@@ -129,5 +129,16 @@ def risk_metrics(request, symbol):
     })
 
     
+from django.shortcuts import render
+from .models import Stock, Portfolio
+
+def dashboard(request):
+    user = request.user
+    portfolio = Portfolio.objects.filter(user=user)
+    context = {
+        'portfolio': portfolio,
+    }
+    return render(request, 'portfolio/dashboard.html', context)
+
 
 

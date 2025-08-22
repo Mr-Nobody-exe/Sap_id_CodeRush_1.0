@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('landing_page.urls')),    # Root paths go to landing_page
     path('portfolio/', include('portfolio.urls')),
     path('stocks/', include('stocks.urls')),
-    
+    path('chatbot/', include('chatbot.urls')),
 ]
