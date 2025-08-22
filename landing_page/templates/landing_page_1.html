@@ -37,12 +37,12 @@
             margin-left: -30px;
         }
         .navBar-middle-four{
-            position: relative;
+            width: 1005px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: center;
-            margin-left: 150px;
+            justify-content: space-between;
+            margin: 0 35px;
         }
         .nav-highlight {
             position: absolute;
@@ -60,7 +60,6 @@
             font-size: 20px;    
         }
         .middle-four-info{
-            margin-right: 150px;
             font-size: 20px;
         }
         .intro{
@@ -171,6 +170,16 @@
             display: flex;
             gap: 8px;
         }
+        .nav-highlight {
+                position: absolute;
+                bottom: -5px;
+                background: #333;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+                pointer-events: none; 
+                height: 100px;
+                background: rgba(0,0,0,0.1);
+            }
         .dot {
             width: 12px;
             height: 12px;
@@ -222,24 +231,25 @@
 <body>
 
 <div class="navBar">
-    <div class="navBar-app-info">
-        <img class="navBar-app-logo" src="analysts-hike-earnings-estimates-for-these-9-stocks-share-price-could-give-double-digit-returns-in-2025.webp">
-        <div class="navBar-app-name">Stonks</div>
-    </div>
-    <div class="navBar-middle-four">
-        <div class="middle-four-info"><a href="#" class="nav-home-button">Home</a></div>
-        <div class="middle-four-info"><a>About</a></div>
-        <div class="middle-four-info"><a>Portfolio</a></div>
-        <div class="middle-four-info"><a>History</a></div>
-        <div class="middle-four-info"><a href="login.html" class="nav-login-button">Login</a></div>
-    </div>
-    <div class="navBar-user-info">User Info</div>
-</div>
+            <div class="navBar-app-info">
+                <img class="navBar-app-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNFrBpYA1tQk0DG87RaabxINQSyRNp9wsNpQ&s">
+                <div class="navBar-app-name">Stonks</div>
+            </div>
+            <div class="navBar-middle-four">
+                <div class="middle-four-info" ><a href="#" class="nav-home-button">Home</a></div>
+                <div class="middle-four-info"><a>About</a></div>
+                <div class="middle-four-info"><a href="{% url 'portfolio_home' %}">Portfolio</a></div>
+                <div class="middle-four-info"><a>Search</a></div>
+                <div class="middle-four-info"><a href="login.html" class="nav-login-button">Login</a></div>
+            </div>
+            <div class="navBar-user-info">User</div>
+        </div>
+
 
 <div class="intro">
     <div class="intro-wrapper">
         
-            <img src="{% static 'landing_page/static/abcd.jpg' %}" class="intro-image" alt="Landing Page Image">
+            <img src="https://thumbs.dreamstime.com/b/green-upward-arrow-digital-stock-chart-showing-financial-growth-success-rising-world-map-background-symbolizing-398116300.jpg" class="intro-image" alt="Landing Page Image">
 
         <div class="intro-text">Let us Access your Portfolio</div>
     </div>
@@ -268,6 +278,34 @@
 </div>
 
 <script>
+const navLinks = document.querySelectorAll(".middle-four-info");
+            const navBar = document.querySelector(".navBar-middle-four");
+
+            const highlight = document.createElement("div");
+            highlight.classList.add("nav-highlight");
+            navBar.appendChild(highlight);
+
+            function moveHighlight(e) {
+                const linkRect = e.target.getBoundingClientRect();
+                const parentRect = navBar.getBoundingClientRect();
+
+                const extraPadingX = 20;
+                const extraPadingY = 10;
+
+                highlight.style.width = linkRect.width+ extraPadingX + "px";
+                highlight.style.height = linkRect.height+ extraPadingY + "px";
+                highlight.style.left = (linkRect.left - parentRect.left- extraPadingX/2) + "px";
+                highlight.style.top = (linkRect.top - parentRect.top - (extraPadingY/2)) + "px";
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener("mouseenter", moveHighlight);
+            });
+
+            navBar.addEventListener("mouseleave", () => {
+                highlight.style.width = 0;
+                highlight.style.height = 0;
+            });
 const carousel = document.getElementById("carousel");
 const slides = carousel.querySelector(".slides");
 const totalSlides = slides.children.length;
@@ -334,6 +372,8 @@ carousel.addEventListener("mouseleave", startInterval);
 
 startInterval();
 </script>
+
+
 
 </body>
 </html>
