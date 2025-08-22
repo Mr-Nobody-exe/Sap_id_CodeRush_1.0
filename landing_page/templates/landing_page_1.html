@@ -1,0 +1,340 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+
+    <style>
+        body {
+            overflow-x: hidden;
+            background-color: rgb(60, 52, 52);
+            font-family: Arial, sans-serif;
+        }
+        .navBar{
+            background-color: rgb(240, 240, 240);
+            margin-top: 30px;
+            border-radius: 40px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;    
+        }
+        .navBar-app-info{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .navBar-app-logo{
+            padding: 10px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-left: -30px;
+        }
+        .navBar-middle-four{
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-left: 150px;
+        }
+        .nav-highlight {
+            position: absolute;
+            bottom: -5px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            pointer-events: none; 
+        }
+        .navBar-app-name{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .navBar-user-info{
+            font-size: 20px;    
+        }
+        .middle-four-info{
+            margin-right: 150px;
+            font-size: 20px;
+        }
+        .intro{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            width: 100%;
+            height: 100vh;
+            margin-bottom: 100px;
+        }
+        .intro-wrapper{
+            position: relative;
+            display: inline-block;
+            width: 95%;
+            max-width: 1450px;
+            margin: 0 auto;
+            height: 100vh;
+            padding-right: 10px;  
+        }
+        .intro-image{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;        
+            border-radius: 12px;   
+            display: block;
+        }
+        .intro-text{
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            color: white;
+            transform: translateX(-50%);
+            font-size: 50px;
+            font-weight: bold;
+        }
+        .nav-login-button,
+        .nav-home-button{
+            text-decoration: none;
+            color: inherit;
+        }
+        .page2 {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgb(60,52,52);
+            padding: 50px 0;
+        }
+        .heading {
+            margin-bottom: 20px;
+            font-size: 40px;
+            color: rgb(240, 240, 240);
+        }
+        .carousel {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px white;
+            margin-bottom: 50px;
+        }
+        .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.6s ease-in-out;
+            color: white;
+        }
+        .slide {
+            min-width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            background: black;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .slide img {
+            max-height: 255px;
+            max-width: 100%;
+            margin-bottom: 20px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .slide .text{
+            width: 90%;
+            max-width: 500px;
+            font-size: 18px;
+            text-align: center;
+            color: white;
+        }
+        .slide .text a{
+            color: #00ffff;
+            text-decoration: none;
+        }
+        .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgb(240, 240, 240);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            background: aqua;
+            transform: scale(1.2);
+        }
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.8);
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        @media screen and (max-width: 768px){
+            .navBar-middle-four { margin-left: 50px; flex-wrap: wrap; }
+            .middle-four-info { margin-right: 20px; font-size: 16px; }
+            .intro-text { font-size: 32px; }
+            .heading { font-size: 28px; }
+            .carousel { height: 400px; }
+            .slide .text { font-size: 16px; width: 80%; }
+        }
+        @media screen and (max-width: 480px){
+            .navBar-middle-four { margin-left: 20px; }
+            .intro-text { font-size: 24px; }
+            .carousel { height: 350px; }
+            .slide .text { font-size: 14px; width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navBar">
+    <div class="navBar-app-info">
+        <img class="navBar-app-logo" src="analysts-hike-earnings-estimates-for-these-9-stocks-share-price-could-give-double-digit-returns-in-2025.webp">
+        <div class="navBar-app-name">Stonks</div>
+    </div>
+    <div class="navBar-middle-four">
+        <div class="middle-four-info"><a href="#" class="nav-home-button">Home</a></div>
+        <div class="middle-four-info"><a>About</a></div>
+        <div class="middle-four-info"><a>Portfolio</a></div>
+        <div class="middle-four-info"><a>History</a></div>
+        <div class="middle-four-info"><a href="login.html" class="nav-login-button">Login</a></div>
+    </div>
+    <div class="navBar-user-info">User Info</div>
+</div>
+
+<div class="intro">
+    <div class="intro-wrapper">
+        
+            <img src="{% static 'landing_page/static/abcd.jpg' %}" class="intro-image" alt="Landing Page Image">
+
+        <div class="intro-text">Let us Access your Portfolio</div>
+    </div>
+</div>
+
+<div class="page2">
+    <div class="heading">
+        <h1>Current News</h1>
+    </div>
+    <div class="carousel" id="carousel">
+        <button class="nav-btn prev" id="prev">&#10094;</button>
+        <div class="slides">
+            {% for article in articles %}
+            <div class="slide">
+                <img src="{{ article.urlToImage }}" alt="News Image">
+                <div class="text">
+                    <h3><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h3>
+                    <p>{{ article.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="nav-btn next" id="next">&#10095;</button>
+        <div class="dots" id="dots"></div>
+    </div>
+</div>
+
+<script>
+const carousel = document.getElementById("carousel");
+const slides = carousel.querySelector(".slides");
+const totalSlides = slides.children.length;
+const dotsContainer = document.getElementById("dots");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const delay = 5000;
+
+let index = 0;
+let interval;
+
+// Create dots
+for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => {
+        index = i;
+        updateCarousel();
+        resetInterval();
+    });
+    dotsContainer.appendChild(dot);
+}
+
+const dots = dotsContainer.querySelectorAll(".dot");
+
+function updateCarousel() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[index].classList.add("active");
+}
+
+function nextSlide() {
+    index = (index + 1) % totalSlides;
+    updateCarousel();
+}
+
+function prevSlide() {
+    index = (index - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+}
+
+function startInterval() {
+    interval = setInterval(nextSlide, delay);
+}
+
+function resetInterval() {
+    clearInterval(interval);
+    startInterval();
+}
+
+nextBtn.addEventListener("click", () => {
+    nextSlide();
+    resetInterval();
+});
+
+prevBtn.addEventListener("click", () => {
+    prevSlide();
+    resetInterval();
+});
+
+carousel.addEventListener("mouseenter", () => clearInterval(interval));
+carousel.addEventListener("mouseleave", startInterval);
+
+startInterval();
+</script>
+
+</body>
+</html>
+
