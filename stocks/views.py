@@ -39,5 +39,6 @@ def risk_metrics(request, symbol):
     return JsonResponse({
         "symbol": symbol,
         "VaR_95": var,
-        "CVaR_95": cvar
+        "CVaR_95": cvar,
+        "Risk_Percent": Risk_Percent,
     })

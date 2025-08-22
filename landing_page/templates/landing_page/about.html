@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About page</title>
+<style>
+
+body{
+    background-color:rgb(42, 42, 42);
+    overflow-x: hidden ;
+}
+.CommunityPage .CommunityFrame{
+    width: 1221px;
+    height: 637px;
+    border-radius: 10px;
+    margin: auto;
+    background: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 75px auto;
+}
+.CommunityPage .CommunityFrame .InnerFrame{
+    display: flex;
+    flex-direction: row;
+    width: 1175px;
+    height: 578px;
+    border-radius: 50px;
+    background:linear-gradient(135deg, #1e3a8a, #0ea5e9);
+    color:white;
+}
+.CommunityPage .CommunityFrame .InnerFrame .text{
+    display: flex;
+    flex-direction: column;
+}
+.CommunityPage .CommunityFrame .InnerFrame .text h1{
+    width: 393px;
+    height: 140px;
+    margin-top: 130px;
+    margin-left: 60px;
+    font-family: Oswald;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 55px;
+    line-height: 60px;
+    letter-spacing: 0%;
+}
+.CommunityPage .CommunityFrame .InnerFrame .text p{
+    width: 297px;
+    height: 150px;
+    top: 316px;
+    margin-left: 59px;
+    font-family: Roboto;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: 0%;
+}
+.CommunityFrame .grid {
+width: 1000px;
+display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: -50px;
+}
+.CommunityFrame .boxes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 20px;
+    transition: transform 0.3s ease, 0.3s ease;
+}
+.CommunityFrame .boxes:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.15);
+}
+.CommunityFrame .boxes img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: solid 3px #38bdf8;
+    object-fit: cover;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    margin-top: 70px;
+}
+.CommunityFrame .boxes h2 {
+    margin-top: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: #f8fafc;
+    text-align: center;
+}
+.CommunityFrame .boxes p {
+    margin-top: 15px;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    color: #cbd5e1;
+}
+.navBar{
+background-color: lightgray;
+margin-top: 30px;
+border-radius: 40px;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+padding-left: 50px;
+padding-right: 50px;    
+
+}
+
+.navBar-app-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navBar-app-logo{
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-left: -30px;
+}
+
+.navBar-middle-four{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 150px;
+}
+.navBar-middle-four a{
+    text-decoration: none;
+    color: black    ;
+}
+
+.nav-highlight {
+    position: absolute;
+    bottom: -5px;
+    background: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    pointer-events: none; 
+    height: 100px;
+    background: rgba(0,0,0,0.1);
+}
+
+.navBar-app-name{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.navBar-user-info{
+    font-size: 20px;    
+}
+
+.middle-four-info{
+    margin-right: 150px;
+    font-size: 20px;
+}
+.nav-highlight {
+    position: absolute;
+    bottom: -5px;
+    background: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    pointer-events: none; 
+    height: 100px;
+    background: rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="navBar">
+            <div class="navBar-app-info">
+                <img class="navBar-app-logo" src="images/2f0.webp">
+                <div class="navBar-app-name">Stonks</div>
+            </div>
+            <div class="navBar-middle-four">
+                <div class="middle-four-info"><a href="#" class="nav-home-button">Home</a></div>
+                <div class="middle-four-info"><a>About</a></div>
+                <div class="middle-four-info"><a href="portfolio.html" class="nav-portfolio-button">Portfolio</a></div>
+                <div class="middle-four-info"><a>History</a></div>
+                <div class="middle-four-info"><a href="login.html" class="nav-login-button">Login</a></div>
+            </div>
+            <div class="navBar-user-info">User Info</div>
+        </div>
+<div class="CommunityPage">
+        <div class="CommunityFrame">
+            <div class="InnerFrame">
+                <div class="text">
+                    <h1>Know more about our website!</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus consequuntur rem, nostrum officia quod sequi.</p>
+                </div>
+                <div class="grid">
+                    <div class="box1 boxes">
+                        <img src="https://www.supplychain247.com/images/2025_article/gep_article_automate_vendor_risk_assessment_ai_0525.jpg" alt="Hello">
+                        <h2>Realtime Risk Assesment</h2>
+                        <p>Hello this is website gives you a Realtime risk asssesment</p>
+                    </div>
+                    <div class="box2 boxes">
+                        <img src="https://intersmart.ae/wp-content/uploads/2025/01/How-3D-and-Interactive-Web-Design-Will-Change-the-User-Experience-in-2025.webp" alt="">
+                        <h2>Interactive Website</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, ipsum..</p>
+                    </div>
+                    <div class="box3 boxes">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShp-tAYa1FVwAkeyZdnf4T44KymrgkIILVIg&s" alt="">
+                        <h2>Live Graphs</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sapiente deserunt iusto unde facilis. Praesentium?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+        const navLinks = document.querySelectorAll(".middle-four-info");
+        const navBar = document.querySelector(".navBar-middle-four");
+
+        const highlight = document.createElement("div");
+        highlight.classList.add("nav-highlight");
+        navBar.appendChild(highlight);
+
+        function moveHighlight(e) {
+        const linkRect = e.target.getBoundingClientRect();
+        const parentRect = navBar.getBoundingClientRect();
+
+        const extraPadingX = 20;
+        const extraPadingY = 10;
+
+        highlight.style.width = linkRect.width+ extraPadingX + "px";
+        highlight.style.height = linkRect.height+ extraPadingY + "px";
+        highlight.style.left = (linkRect.left - parentRect.left- extraPadingX/2) + "px";
+        highlight.style.top = (linkRect.top - parentRect.top - (extraPadingY/2)) + "px";
+    }
+
+navLinks.forEach(link => {
+    link.addEventListener("mouseenter", moveHighlighDt);
+});
+
+navBar.addEventListener("mouseleave", () => {
+    highlight.style.width = 0;
+    highlight.style.height = 0;
+});
+</script>
+</body>
+</html>

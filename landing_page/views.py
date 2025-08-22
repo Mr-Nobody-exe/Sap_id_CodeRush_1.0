@@ -20,4 +20,7 @@ def landing_index(request):
 
     articles = all_articles.get("articles", [])[:10]
     
-    return render(request, "landing_page_1.html", {"articles": articles})
+    return render(request, "landing_page/landing_page_1.html", {"articles": articles})
+
+def about(request):
+    return render(request,"landing_page/about.html")
