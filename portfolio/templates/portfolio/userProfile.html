@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const allStocks = [
         { symbol: 'AAPL', name: 'Apple Inc.', 
-        price: 150.54, change: 0.5 },
+        price: 150.54, change: 0.5},
         { symbol: 'GOOGL', name: 'Alphabet Inc.',
          price: 2800.66, change: -1.2 },
         { symbol: 'AMZN', name: 'Amazon.com Inc.',
@@ -479,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fetchStockData(symbol) {
         // Mock data for all stocks
         const mockData = {
-            AAPL: { price: 150.54, change: 0.5 },
+            AAPL: { price: 150.54, change: 0.5,},
             GOOGL: { price: 2800.66, change: -1.2 },
             AMZN: { price: 3401.46, change: 2.1 },
             MSFT: { price: 299.35, change: -0.3 },
@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
             HMC: { price: 31.45, change: -0.2 },
             UBS: { price: 16.23, change: 0.6 },
             DB: { price: 12.45, change: -0.1 },
-            HSBC: { price: 30.67, change: 0.5 }
+            HSBC: { price: 30.67, change: 0.5 ,}
         };
     
         return new Promise((resolve) => {
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const addButton = document
             .createElement('button');
             addButton
-            .textContent = 'Add';
+            .textContent = 'Buy';
             addButton
             .classList
             .add('add');
@@ -644,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const removeButton = document
             .createElement('button');
             removeButton
-            .textContent = 'Remove';
+            .textContent = 'Sell';
             removeButton
             .classList
             .add('remove');
@@ -725,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.setRiskLevel = setRiskLevel;
 
   // Example: initialize at 45%
-  setRiskLevel(Jsonrespone.risk_percent);
+  setRiskLevel(25);
 });
 
   </script>
