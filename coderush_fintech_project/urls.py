@@ -22,4 +22,5 @@ urlpatterns = [
     path('portfolio/', include('portfolio.urls')),
     path('stocks/', include('stocks.urls')),
     path('', include('landing_page.urls')),
+    path('', include('stocks.urls')),
 ]
