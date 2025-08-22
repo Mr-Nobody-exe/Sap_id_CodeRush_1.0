@@ -20,8 +20,8 @@ risk-reward optimization.
 
 ## Goals:
 
--Portfolio risk prediction using VaR, CVaR
--Sentiment-driven rebalancing signals
--Explainable AI models for transparency
+- Portfolio risk prediction using VaR, CVaR
+- Sentiment-driven rebalancing signals
+- Explainable AI models for transparency
 
 ---
