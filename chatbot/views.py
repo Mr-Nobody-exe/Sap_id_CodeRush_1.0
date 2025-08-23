@@ -8,7 +8,7 @@ import re
 from portfolio.utils import get_risk_score, get_var, buy_stock, sell_stock
 
 # Initialize Gemini Client
-client = genai.Client(api_key="AIzaSyDzMkcmrhoj8PKRXLOdRcCyHdw_wUhxKp4")  # 🔹 Replace with your actual API key
+client = genai.Client(api_key="AIzaSyBY2STLvVnQUQM-Z-L-6QHdS2z5d6E8D9w")  # 🔹 Replace with your actual API key
 
 # System instruction for accuracy
 SYSTEM_PROMPT = """
