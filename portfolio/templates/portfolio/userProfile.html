@@ -6,240 +6,99 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock Market Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f2f5;
-    }
-
-    .dashboard {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    main {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    .left-half{
-      display: flex;
-      flex-direction: column;
-      width: 48%; 
-    }
-
-    .watchlist{
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
-    }
-
-    .stock-details {
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 48%;
-    }
-
-    .search-section {
-      margin-top: 20px;
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-      cursor: pointer;
-      position: relative;
-    }
-
-    li:hover {
-      background-color: #f0f2f5;
-    }
-
-    li button.remove {
-      display: none;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 5px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    li:hover button.remove {
-      display: inline-block;
-    }
-
-    #stock-info {
-      font-size: 1.2em;
-    }
-
-    #search {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-
-    #stock-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    #stock-table th, #stock-table td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-
-    #stock-table tr:hover{
-      background-color: #f0f2f5;
-    }
-
-    #stock-table th {
-      background-color: #f4f4f4;
-    }
-
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f0f2f5; }
+    .dashboard { max-width: 1200px; margin: auto; padding: 20px; }
+    header { background-color: #333; color: white; padding: 10px 0; text-align: center; }
+    .ticker-wrapper { overflow: hidden; width: 100%; margin-top: 10px; }
+    .ticker-bar { display: flex; gap: 50px; white-space: nowrap; animation: scroll 30s linear infinite; }
+    .ticker-item { display: flex; gap: 5px; font-weight: bold; }
+    .ticker-item .name { color: black; }
+    .ticker-item .change.positive { color: #0f0; }
+    .ticker-item .change.negative { color: #f00; }
+    @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    main { display: flex; justify-content: space-between; margin-top: 20px; }
+    .left-half { display: flex; flex-direction: column; width: 48%; }
+    .watchlist, .stock-details, .transactions { background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .stock-details { width: 48%; overflow-y: auto; max-height: 600px; }
+    .search-section { margin-top: 20px; background-color: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; }
+    h2 { margin-top: 0; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    li:hover { background-color: #f0f2f5; }
+    #stock-table { width: 100%; max-width: 900px; border-collapse: collapse; margin-top: 10px; } 
+    #stock-table th, #stock-table td { border: 1px solid #ddd; padding: 12px; text-align: left; } 
+    #stock-table tr:hover { background-color: #f0f2f5; }
+    #stock-table th { background-color: #f4f4f4; }
+    input#search { width: calc(100% - 40px); max-width: 900px; padding: 12px 15px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px; box-sizing: border-box; }
     .positive { color: green; }
     .negative { color: red; }
-
-    button.add {
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 5px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    /* Risk Meter */
-    .riskMeter {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .semicircle-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 300px;
-      margin: auto;
-      aspect-ratio: 2 / 1;
-      display: grid;
-      place-items: center;
-    }
-
-    .progress {
-      transition: stroke-dashoffset .6s ease;
-      stroke-dasharray: 0 1;
-    }
-
-    .label {
-      position: absolute;
-      bottom: 8%;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: #333;
-    }
-
-    .label .sub {
-      display: block;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    #action-section {
-      margin-top: 15px;
-      border-top: 1px solid #eee;
-      padding-top: 10px;
-    }
-
-    #action { font-size: 1.1em; font-weight: bold; }
-    #action.buy { color: green; }
-    #action.sell { color: red; }
-    #action.hold { color: blue; }
-    #explanation { font-size: 0.9em; color: #555; }
-
+    button { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
+    button.add { background-color: green; color: white; }
+    button.remove { background-color: red; color: white; }
+    canvas { width: 100% !important; height: 300px !important; margin-top: 20px; }
+    .riskMeter { background: white; padding: 20px; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
+    .semicircle-wrap { position: relative; max-width: 300px; margin: auto; aspect-ratio: 2 / 1; display: grid; place-items: center; }
+    .progress { transition: stroke-dashoffset .6s ease, stroke 0.6s ease; stroke-dasharray: 0 1; }
+    .label { position: absolute; bottom: 8%; text-align: center; font-weight: bold; font-size: 1.5rem; color: #333; }
+    .label .sub { display: block; font-size: 0.9rem; color: #666; }
+    .transactions table { width: 100%; border-collapse: collapse; }
+    .transactions th, .transactions td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    .transactions tr:hover { background-color: #f0f2f5; }
   </style>
 </head>
 <body>
   <div class="dashboard">
-    <header>
-      <h1>User's Profile</h1>
-    </header>
+    <header><h1>User's Profile</h1></header>
+
+    <div class="ticker-wrapper">
+      <div class="ticker-bar" id="tickerBar"></div>
+    </div>
 
     <main>
       <div class="left-half">
-        <!-- Risk Meter -->
         <div class="riskMeter">
           <h2>Risk Meter</h2>
           <div class="semicircle-wrap">
             <svg viewBox="0 0 100 50" width="100%" height="100%">
-              <path id="arc-track" d="M 10 50 A 40 40 0 0 1 90 50"
-                fill="none" stroke="#eee" stroke-width="10" stroke-linecap="round"/>
-              <path id="arc-progress" class="progress"
-                d="M 10 50 A 40 40 0 0 1 90 50"
-                fill="none" stroke="url(#grad)" stroke-width="10" stroke-linecap="round"/>
-              <defs>
-                <linearGradient id="grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#6a5acd"/>
-                  <stop offset="100%" stop-color="#00b3ff"/>
-                </linearGradient>
-              </defs>
+              <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#eee" stroke-width="10" stroke-linecap="round"/>
+              <path id="arc-progress" class="progress" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#00b3ff" stroke-width="10" stroke-linecap="round"/>
             </svg>
             <div class="label">
               <span id="percent">0%</span>
               <span class="sub">risk level</span>
             </div>
           </div>
-
-          <div id="action-section">
-            <h3 id="action" class="hold">Hold</h3>
-            <p id="explanation">Select a stock to see recommendations.</p>
-          </div>
         </div>
 
-        <!-- Watchlist -->
         <div class="watchlist">
           <h2>Current Stock</h2>
           <ul id="watchlist"></ul>
+        </div>
+
+        <div class="transactions">
+          <h2>Current Balance & Transactions</h2>
+          <p>Balance: $<span id="currentBalance">0.00</span></p>
+          <table id="transactionTable">
+            <thead>
+              <tr>
+                <th>Stock</th>
+                <th>Action</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Profit/Loss</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
 
       <div class="stock-details">
         <h2>Stock Overview</h2>
         <div id="stock-info"></div>
+        <div id="activeCharts"></div>
       </div>
     </main>
 
@@ -259,145 +118,215 @@
     </section>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const watchlist = document.getElementById('watchlist');
-      const stockInfo = document.getElementById('stock-info');
-      const searchInput = document.getElementById('search');
-      const stockTableBody = document.querySelector('#stock-table tbody');
-      const actionEl = document.getElementById('action');
-      const explanationEl = document.getElementById('explanation');
+<script>
+const allStocks = [
+  {symbol:'AAPL',name:'Apple Inc.',price:150.54},{symbol:'GOOGL',name:'Alphabet Inc.',price:2800.66},
+  {symbol:'AMZN',name:'Amazon.com Inc.',price:3401.46},{symbol:'MSFT',name:'Microsoft Corp.',price:299.35},
+  {symbol:'FB',name:'Meta Platforms',price:355.23},{symbol:'TSLA',name:'Tesla Inc.',price:720.25},
+  {symbol:'NFLX',name:'Netflix Inc.',price:525.50},{symbol:'NVDA',name:'NVIDIA Corp.',price:195.33},
+  {symbol:'ADBE',name:'Adobe Inc.',price:630.12},{symbol:'PYPL',name:'PayPal Holdings',price:280.33},
+  {symbol:'INTC',name:'Intel Corp.',price:52.44},{symbol:'ORCL',name:'Oracle Corp.',price:90.23},
+  {symbol:'IBM',name:'IBM Corp.',price:140.55},{symbol:'CSCO',name:'Cisco Systems',price:56.78},
+  {symbol:'SAP',name:'SAP SE',price:134.12},{symbol:'SQ',name:'Block Inc.',price:70.21},
+  {symbol:'UBER',name:'Uber Technologies',price:45.22},{symbol:'LYFT',name:'Lyft Inc.',price:38.44},
+  {symbol:'TWTR',name:'Twitter Inc.',price:65.50},{symbol:'SHOP',name:'Shopify Inc.',price:1220.12},
+  {symbol:'ZM',name:'Zoom Video',price:285.45},{symbol:'DOCU',name:'DocuSign Inc.',price:210.33},
+  {symbol:'SNAP',name:'Snap Inc.',price:73.45},{symbol:'BABA',name:'Alibaba Group',price:145.12},
+  {symbol:'JD',name:'JD.com Inc.',price:83.33},{symbol:'V',name:'Visa Inc.',price:225.44},
+  {symbol:'MA',name:'Mastercard Inc.',price:340.22},{symbol:'KO',name:'Coca-Cola Co.',price:60.12},
+  {symbol:'PEP',name:'PepsiCo Inc.',price:180.33},{symbol:'DIS',name:'Disney Inc.',price:145.67}
+];
 
-      let watchlistStocks = []; // start empty
+const stockTableBody = document.querySelector('#stock-table tbody');
+const stockInfo = document.getElementById('stock-info');
+const watchlist = document.getElementById('watchlist');
+const activeChartsContainer = document.getElementById('activeCharts');
+const tickerBar = document.getElementById('tickerBar');
+const transactionTableBody = document.querySelector('#transactionTable tbody');
+const currentBalanceElem = document.getElementById('currentBalance');
 
-      const allStocks = [
-        { symbol: 'AAPL', name: 'Apple Inc.', price: 150.54, change: 0.5 },
-        { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 2800.66, change: -1.2 },
-        { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 3401.46, change: 2.1 },
-        { symbol: 'MSFT', name: 'Microsoft Corporation', price: 299.35, change: -0.3 },
-        { symbol: 'TSLA', name: 'Tesla Inc.', price: 720.25, change: 0.8 }
-      ];
+const stockHistories = {};
+const activeCharts = {};
+const watchlistStocks = [];
+const transactions = [];
+let balance = 0;
 
-      function fetchRiskMetrics(symbol) {
-        return new Promise(resolve => {
-          setTimeout(() => {
-            resolve({
-              VaR_95: Math.random().toFixed(4),
-              CVaR_95: Math.random().toFixed(4),
-              Volatility: Math.random().toFixed(4),
-              Sentiment: (Math.random()*2-1).toFixed(2),
-              Risk_Percent: Math.floor(Math.random()*100),
-              Suggested_Action: ["Buy","Sell","Hold"][Math.floor(Math.random()*3)],
-              Explanation: "This is a generated explanation for " + symbol
-            });
-          }, 200);
-        });
-      }
+const arc=document.getElementById('arc-progress');
+const percentText=document.getElementById('percent');
+const arcLength=arc.getTotalLength();
+arc.style.strokeDasharray=arcLength;
+arc.style.strokeDashoffset=arcLength;
 
-      function displayStockInfo(stock) {
-        fetchRiskMetrics(stock.symbol).then(data => {
-          const changeClass = data.Sentiment >= 0 ? 'positive' : 'negative';
-          stockInfo.innerHTML = `
-            <h3>${stock.name} (${stock.symbol})</h3>
-            <p>Sentiment Score: <span class="${changeClass}">${data.Sentiment}</span></p>
-            <p>VaR(95): ${data.VaR_95}</p>
-            <p>CVaR(95): ${data.CVaR_95}</p>
-            <p>Volatility: ${data.Volatility}</p>
-          `;
+function setRiskLevel(pct){
+  pct=Math.max(0,Math.min(100,pct));
+  arc.style.strokeDashoffset=arcLength*(1-pct/100);
+  arc.style.stroke=pct<65?'green':'red';
+  percentText.textContent=pct+"%";
+}
 
-          if (window.setRiskLevel) window.setRiskLevel(data.Risk_Percent);
+function fetchRiskMetrics(symbol){
+  return new Promise(resolve=>{
+    const stock=allStocks.find(s=>s.symbol===symbol);
+    const price=stock?stock.price:100;
+    const priceFactor=(price%100)/100;
+    const risk=Math.round(Math.max(0,Math.min(100,priceFactor*60+Math.random()*40)));
+    let suggested=risk<65?'Buy':'Sell';
+    setTimeout(()=>resolve({
+      VaR_95:Math.random().toFixed(4),
+      CVaR_95:Math.random().toFixed(4),
+      Volatility:Math.random().toFixed(4),
+      Sentiment:(Math.random()*2-1).toFixed(2),
+      Risk_Percent:risk,
+      Suggested_Action:suggested,
+      Explanation:`Risk ${risk}% estimated from price ${price.toFixed(2)} with random factor.`
+    }),200);
+  });
+}
 
-          actionEl.textContent = data.Suggested_Action;
-          actionEl.className = data.Suggested_Action.toLowerCase();
-          explanationEl.textContent = data.Explanation;
-        });
-      }
+function renderTable(stocks=allStocks){
+  stockTableBody.innerHTML='';
+  stocks.forEach(stock=>{
+    const row=document.createElement('tr');
+    row.innerHTML=`
+      <td>${stock.name} (${stock.symbol})</td>
+      <td>$${stock.price.toFixed(2)}</td>
+      <td class="${Math.random()>0.5?'positive':'negative'}">${(Math.random()*2-1).toFixed(2)}%</td>
+      <td>
+        <button class="add" onclick="buyStock('${stock.symbol}',1)">Buy</button>
+        <button class="remove" onclick="sellStock('${stock.symbol}',1)">Sell</button>
+      </td>
+    `;
+    stockTableBody.appendChild(row);
+  });
+}
 
-      function updateWatchlist() {
-        watchlist.innerHTML = '';
-        watchlistStocks.forEach(stock => {
-          const li = document.createElement('li');
-          li.textContent = `${stock.name} (${stock.symbol})`;
+function renderWatchlist(){
+  watchlist.innerHTML='';
+  activeChartsContainer.innerHTML='';
 
-          li.addEventListener('click', () => displayStockInfo(stock));
+  watchlistStocks.forEach(stock=>{
+    const li=document.createElement('li');
+    li.textContent = `${stock.name} (${stock.symbol}) — ${stock.suggestion || ''}`;
+    li.addEventListener('click',()=>showStock(stock.symbol));
+    watchlist.appendChild(li);
 
-          // Remove button
-          const removeBtn = document.createElement('button');
-          removeBtn.textContent = 'Remove';
-          removeBtn.className = 'remove';
-          removeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            watchlistStocks = watchlistStocks.filter(s => s.symbol !== stock.symbol);
-            updateWatchlist();
-          });
-          li.appendChild(removeBtn);
-          watchlist.appendChild(li);
-        });
-      }
-
-      function addToWatchlist(stock) {
-        if (!watchlistStocks.find(s => s.symbol === stock.symbol)) {
-          watchlistStocks.push(stock);
-          updateWatchlist();
-        }
-      }
-
-      function displayStockTable(stocks) {
-        stockTableBody.innerHTML = '';
-        stocks.forEach(stock => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${stock.name}</td>
-            <td>$${stock.price.toFixed(1)}</td>
-            <td>${stock.change}%</td>
-            <td><button class="add">Add</button></td>
-          `;
-
-          tr.addEventListener('click', (e) => {
-            if (e.target.classList.contains('add')) return;
-            displayStockInfo(stock);
-          });
-
-          const addButton = tr.querySelector('.add');
-          addButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            addToWatchlist(stock);
-          });
-
-          stockTableBody.appendChild(tr);
-        });
-      }
-
-      searchInput.addEventListener('input', e => {
-        const searchTerm = e.target.value.toLowerCase();
-        const filtered = allStocks.filter(s =>
-          s.name.toLowerCase().includes(searchTerm) ||
-          s.symbol.toLowerCase().includes(searchTerm)
-        );
-        displayStockTable(filtered);
+    if(!activeCharts[stock.symbol]){
+      const canvasActive=document.createElement('canvas');
+      canvasActive.id='active-'+stock.symbol;
+      activeChartsContainer.appendChild(canvasActive);
+      const ctxActive=canvasActive.getContext('2d');
+      if(!stockHistories[stock.symbol]) stockHistories[stock.symbol]=[stock.price];
+      activeCharts[stock.symbol]=new Chart(ctxActive,{
+        type:'line',
+        data:{labels:[new Date().toLocaleTimeString()],datasets:[{label:stock.symbol,data:[stock.price],borderColor:'#00b3ff',backgroundColor:'rgba(0,179,255,0.1)',fill:true,tension:0.3}]},
+        options:{animation:false,scales:{x:{ticks:{maxTicksLimit:5}}}}
       });
+    }
+  });
+}
 
-      displayStockTable(allStocks);
-      updateWatchlist();
+async function showStock(symbol){
+  const stock=allStocks.find(s=>s.symbol===symbol);
+  if(!stock) return;
+  const metrics=await fetchRiskMetrics(symbol);
+  stockInfo.innerHTML=`
+    <h3>${stock.name} (${stock.symbol})</h3>
+    <p>Price: $${stock.price.toFixed(2)}</p>
+    <p><b>Volatility:</b> ${(Math.random()*5).toFixed(2)}%</p>
+    <p><b>VaR:</b> ${(Math.random()*3).toFixed(2)}%</p>
+    <p><b>CVaR:</b> ${(Math.random()*4).toFixed(2)}%</p>
+    <p><b>Suggested Action:</b> ${metrics.Suggested_Action}</p>
+    <p><i>${metrics.Explanation}</i></p>
+  `;
+  setRiskLevel(metrics.Risk_Percent);
+  const wlItem=watchlistStocks.find(s=>s.symbol===symbol);
+  if(wlItem){wlItem.suggestion=metrics.Suggested_Action;}
+}
 
-    });
+function updateTransactions(){
+  transactionTableBody.innerHTML='';
+  let currentVal = 0;
+  transactions.forEach(trx=>{
+    const {symbol,action,price,quantity} = trx;
+    const currentPrice = allStocks.find(s=>s.symbol===symbol)?.price || price;
+    let pl = 0;
+    if(action==='Buy'){
+      pl = (currentPrice - price) * quantity;
+      currentVal += currentPrice*quantity;
+    } else {
+      pl = (price - currentPrice) * quantity;
+      currentVal -= price*quantity;
+    }
+    const row=document.createElement('tr');
+    row.innerHTML=`
+      <td>${symbol}</td>
+      <td>${action}</td>
+      <td>$${price.toFixed(2)}</td>
+      <td>${quantity}</td>
+      <td class="${pl>=0?'positive':'negative'}">${pl.toFixed(2)}</td>
+    `;
+    transactionTableBody.appendChild(row);
+  });
+  balance = currentVal;
+  currentBalanceElem.textContent = balance.toFixed(2);
+  currentBalanceElem.style.color = balance>=0 ? 'green' : 'red';
+}
 
-    // Risk Meter JS
-    document.addEventListener('DOMContentLoaded', () => {
-      const arc = document.getElementById('arc-progress');
-      const percentText = document.getElementById('percent');
-      const arcLength = arc.getTotalLength();
-      arc.style.strokeDasharray = arcLength + " " + arcLength;
+function buyStock(symbol,quantity=1){
+  const stock=allStocks.find(s=>s.symbol===symbol);
+  if(!stock) return;
+  transactions.push({symbol, action:'Buy', price:stock.price, quantity});
+  if(!watchlistStocks.some(s=>s.symbol===symbol)) watchlistStocks.push({...stock});
+  renderWatchlist();
+  showStock(symbol);
+  updateTransactions();
+}
 
-      function setRiskLevel(pct) {
-        pct = Math.max(0, Math.min(100, pct));
-        const offset = arcLength * (1 - pct / 100);
-        arc.style.strokeDashoffset = offset;
-        percentText.textContent = pct + "%";
-      }
-      window.setRiskLevel = setRiskLevel;
-      setRiskLevel(0);
-    });
-  </script>
+function sellStock(symbol,quantity=1){
+  const stock=allStocks.find(s=>s.symbol===symbol);
+  if(!stock) return;
+  transactions.push({symbol, action:'Sell', price:stock.price, quantity});
+  const idx=watchlistStocks.findIndex(s=>s.symbol===symbol);
+  if(idx!==-1) watchlistStocks.splice(idx,1);
+  if(stockHistories[symbol]) delete stockHistories[symbol];
+  if(activeCharts[symbol]) { activeCharts[symbol].destroy(); delete activeCharts[symbol]; }
+  renderWatchlist();
+  updateTransactions();
+}
+
+renderTable();
+renderWatchlist();
+setRiskLevel(0);
+
+document.getElementById('search').addEventListener('input',()=>{ 
+  renderTable(allStocks.filter(stock=>stock.name.toLowerCase().includes(event.target.value.toLowerCase())||stock.symbol.toLowerCase().includes(event.target.value.toLowerCase())));
+});
+
+setInterval(()=>{
+  tickerBar.innerHTML='';
+  allStocks.forEach(stock=>{
+    if(!stockHistories[stock.symbol]) stockHistories[stock.symbol]=[stock.price];
+    const lastPrice=stockHistories[stock.symbol].slice(-1)[0];
+    const newPrice=lastPrice+(Math.random()-0.5)*2;
+    stockHistories[stock.symbol].push(newPrice);
+
+    const changePercent=((newPrice-stock.price)/stock.price*100).toFixed(2);
+    const tickerItem=document.createElement('div');
+    tickerItem.className='ticker-item';
+    tickerItem.innerHTML=`<span class="name">${stock.symbol}</span> <span class="change ${changePercent>=0?'positive':'negative'}">${changePercent}%</span>`;
+    tickerBar.appendChild(tickerItem);
+
+    if(activeCharts[stock.symbol]){
+      const chart=activeCharts[stock.symbol];
+      chart.data.labels.push(new Date().toLocaleTimeString());
+      chart.data.datasets[0].data.push(newPrice);
+      if(chart.data.labels.length>20){ chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
+      chart.update();
+    }
+
+    updateTransactions();
+  });
+},2000);
+</script>
 </body>
 </html>

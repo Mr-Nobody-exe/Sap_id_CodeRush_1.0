@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f3f4f6;
+    }
+
+    .login-container {
+      display: flex;
+      width: 90%;
+      max-width: 1000px;
+      height: 600px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .login-left {
+      flex: 1;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .login-left h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .login-left p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 300px;
+    }
+
+    .login-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: #2563eb;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #2563eb;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-button:hover {
+      background: #1e3a8a;
+    }
+
+    .error-message {
+      color: red; 
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .no-login{
+        margin-top: 5px;
+        text-align: right;
+        font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        height: auto;
+      }
+      .login-left {
+        height: 200px;
+        padding: 1.5rem;
+      }
+      .login-left h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-left">
+      <h1>Portfolio Manager</h1>
+      <p>Manage your investments with confidence. Track, analyze, and optimize your portfolio all in one place.</p>
+    </div>
+
+    <div class="login-right">
+      <div class="login-box">
+        <h2>Login to Your Account</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <button type="submit" class="login-button">Login</button>
+          <div id="errorMessage" class="error-message">Please fill in all fields correctly.</div>
+          <div class="no-login">Don't have a account? Sign in <a href={% url 'signin' %}>here</a></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (username === "" || email === "" || password === "") {
+        errorMessage.style.display = "block";
+      } else {
+        errorMessage.style.display = "none";
+        alert("Login successful...");   
+        window.location.href = "{% url 'landing_index' %}";  
+      }
+
+
+    });
+  </script>
+</body>
+</html>

@@ -24,3 +24,9 @@ def landing_index(request):
 
 def about(request):
     return render(request,"landing_page/about.html")
+
+def login(request):
+    return render(request,"landing_page/login.html")
+
+def sign_in(request):
+    return render(request,"landing_page/sign_in.html")
